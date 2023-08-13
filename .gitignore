@@ -195,3 +195,6 @@ chromedriver
 *.yaml
 config_private.py
 config_test.py
+
+config.py
+.n2t/
