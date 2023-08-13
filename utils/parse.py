@@ -135,6 +135,11 @@ def get_notion_html(html_fp,
             pre_tag['class'] = 'text'
             pre_tag['data-ke-language'] = 'text'
 
+    # 인용 블록 스타일 지정
+    blockquotes = soup.find_all('blockquote')
+    for blockquote in blockquotes:
+        blockquote['data-ke-style'] = 'style2'
+
     if is_save:
         # html 파일로 재 저장
         save_fp = html_fp.replace('.html', '_output.html')
