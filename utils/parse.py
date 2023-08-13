@@ -116,6 +116,18 @@ def get_notion_html(html_fp,
     # watermark = BeautifulSoup('<br><p class="">Uploaded by <mark class="highlight-orange"><a href="https://github.com/jmjeon94/N2T">N2T</a></mark></p>', 'lxml')
     # page_body_tag.append(watermark)
 
+    # article, div 태그 제거 (목차 보이게 하기 위해)
+    div_children = list(article.find('div').children)
+    joined_html = ''.join(str(child) for child in div_children)
+    soup = BeautifulSoup(joined_html, 'lxml')
+    
+    # 불필요한 id, class 제거
+    for tag in soup.find_all():
+        if tag.has_attr('id'):
+            del tag['id']
+        if tag.has_attr('class'):
+            del tag['class']
+
     if is_save:
         # html 파일로 재 저장
         save_fp = html_fp.replace('.html', '_output.html')
