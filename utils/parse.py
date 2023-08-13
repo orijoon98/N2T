@@ -96,25 +96,25 @@ def get_notion_html(html_fp,
                 encoded_string = encode_b64(filepath)
                 img_tag['src'] = encoded_string
 
-    # body태그에 notion style css link 추가
-    style_tag = soup.new_tag('link', rel='stylesheet',
-                             href="https://rawcdn.githack.com/ppuep94/n2t/5ef4dc01e9d6336341e9ab95bb71672f9d3a3dc9/assets/css/style2.css")
-    body = soup.find('body')
-    body.insert(0, style_tag)
+    # # body태그에 notion style css link 추가
+    # style_tag = soup.new_tag('link', rel='stylesheet',
+    #                          href="https://rawcdn.githack.com/ppuep94/n2t/5ef4dc01e9d6336341e9ab95bb71672f9d3a3dc9/assets/css/style2.css")
+    # body = soup.find('body')
+    # body.insert(0, style_tag)
 
-    # body태그에 code style css 적용
-    if code_theme is None:
-        code_theme = 'atom-one-dark'
-    code_css = BeautifulSoup(
-        f"""<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/{code_theme}.min.css">
-                <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
-                <script>hljs.initHighlightingOnLoad();</script>""",
-        'lxml')
-    body.insert(0, code_css)
+    # # body태그에 code style css 적용
+    # if code_theme is None:
+    #     code_theme = 'atom-one-dark'
+    # code_css = BeautifulSoup(
+    #     f"""<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/{code_theme}.min.css">
+    #             <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    #             <script>hljs.initHighlightingOnLoad();</script>""",
+    #     'lxml')
+    # body.insert(0, code_css)
 
-    # N2T 워터마크 추가
-    watermark = BeautifulSoup('<br><p class="">Uploaded by <mark class="highlight-orange"><a href="https://github.com/jmjeon94/N2T">N2T</a></mark></p>', 'lxml')
-    page_body_tag.append(watermark)
+    # # N2T 워터마크 추가
+    # watermark = BeautifulSoup('<br><p class="">Uploaded by <mark class="highlight-orange"><a href="https://github.com/jmjeon94/N2T">N2T</a></mark></p>', 'lxml')
+    # page_body_tag.append(watermark)
 
     if is_save:
         # html 파일로 재 저장
