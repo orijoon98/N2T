@@ -14,7 +14,7 @@ class Notion:
             self.file_token = self.client.session.cookies.get('file_token')
             print('[진행중] Notion 로그인 완료')
         except:
-            raise ValueError('[Error] notion token값이 올바르지 않습니다. 다시 확인 해 주세요. [{}]'.format(token_v2))
+            raise ValueError('[Error] notion token값이 올바르지 않습니다. 다시 확인 해 주세요. [{}]'.format(notion_token))
 
     def get_pages_readyToPost(self,
                               table_url: str,
