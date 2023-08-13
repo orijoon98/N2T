@@ -53,14 +53,6 @@ def get_notion_html(html_fp,
     soup.find('title').extract()
     soup.find('style').extract()
 
-    # 코드 블럭이 존재하면 코드 블럭 type에 맞게 지정
-    pre_tags = soup.find_all('pre')
-    for i, pre_tag in enumerate(pre_tags):
-        if code_languages is not None:
-            pre_tag['class'].append(code_languages[i])
-        else:
-            pre_tag['class'].append('python')
-
     # 본문 내용 가져오기, class 추가
     article = soup.find('article')
     article['class'].append('Notion')
@@ -117,7 +109,11 @@ def get_notion_html(html_fp,
     # page_body_tag.append(watermark)
 
     # article, div 태그 제거 (목차 보이게 하기 위해)
+    # 코드 블럭 내부의 \n 은 <br> 로 교체
     div_children = list(article.find('div').children)
+    for i, child in enumerate(div_children):
+        if str(child).startswith("<pre"):
+            div_children[i] = str(child).replace("\n", "<br>")
     joined_html = ''.join(str(child) for child in div_children)
     soup = BeautifulSoup(joined_html, 'lxml')
     
@@ -127,6 +123,17 @@ def get_notion_html(html_fp,
             del tag['id']
         if tag.has_attr('class'):
             del tag['class']
+
+    # 코드 블럭이 존재하면 코드 블럭 type에 맞게 지정
+    pre_tags = soup.find_all('pre')
+    for i, pre_tag in enumerate(pre_tags):
+        if code_languages is not None:
+            code_languages[i] = code_languages[i].lower().replace(" ", "")
+            pre_tag['class'] = code_languages[i]
+            pre_tag['data-ke-language'] = code_languages[i]
+        else:
+            pre_tag['class'] = 'text'
+            pre_tag['data-ke-language'] = 'text'
 
     if is_save:
         # html 파일로 재 저장
