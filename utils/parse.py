@@ -109,10 +109,10 @@ def get_notion_html(html_fp,
     # page_body_tag.append(watermark)
 
     # article, div 태그 제거 (목차 보이게 하기 위해)
-    # 코드 블럭 내부의 \n 은 <br> 로 교체
+    # 코드 블럭, 인용 블럭 내부의 \n 은 <br> 로 교체
     div_children = list(article.find('div').children)
     for i, child in enumerate(div_children):
-        if str(child).startswith("<pre"):
+        if (str(child).startswith("<pre")) or (str(child).startswith("<blockquote")):
             div_children[i] = str(child).replace("\n", "<br>")
     joined_html = ''.join(str(child) for child in div_children)
     soup = BeautifulSoup(joined_html, 'lxml')
@@ -135,7 +135,7 @@ def get_notion_html(html_fp,
             pre_tag['class'] = 'text'
             pre_tag['data-ke-language'] = 'text'
 
-    # 인용 블록 스타일 지정
+    # 인용 블럭 스타일 지정
     blockquotes = soup.find_all('blockquote')
     for blockquote in blockquotes:
         blockquote['data-ke-style'] = 'style2'
