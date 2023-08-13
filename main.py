@@ -162,7 +162,7 @@ class Notion2Tistory:
 
 
 if __name__ == '__main__':
-    from config import cfg
+    from config_private import cfg
 
     try:
         # create Notion2Tistory client
